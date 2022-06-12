@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/bbb324/algorithm/issues"
   },
-  "homepage": "https://github.com/bbb324/algorithm#readme"
+  "homepage": "https://github.com/bbb324/algorithm#readme",
+  "devDependencies": {
+    "eslint": "^8.17.0"
+  }
 }
