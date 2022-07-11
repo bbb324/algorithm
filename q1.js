@@ -1,1 +1,4 @@
-console.log(222)
+function aa() {
+    console.log(1)
+}
+aa();
