@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/bbb324/algorithm#readme",
   "devDependencies": {
-    "eslint": "^8.17.0"
+    "eslint": "^8.30.0",
+    "eslint-plugin-import": "^2.26.0"
   }
 }

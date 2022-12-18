@@ -1,20 +1,37 @@
-var getFolderNames = function(names) {
-    let res = [];
-    let set = new Set();
-    for(let name of names) {
-        if(set.has(name)) {
-            for(let i = 1; ;i++) {
-                let str = `${name}(${i})`;
-                if(!set.has(str)) {
-                    set.add(str)
-                    break;
-                }
-            }
-        } else {
-            set.add(name)
-        }
+function reverseOnlyLetters(S) {
+  let wordList = [];
+  let signList = []
+  let res = new Array(S.length);
+  for(let i = 0; i<S.length; i++) {
+    if(/\w/i.test(S[i])) {
+      wordList.push([S[i], i])
+    } else {
+      signList.push([S[i], i])
     }
-    return [...set];
-};
+  }
+  let list = reverse(wordList);
+  for(let i = 0; i<list.length; i++) {
+      let [val, key] = list[i];
+      res[key] = val;
+  }
+  for(let i = 0; i<signList.length; i++) {
+    let [val, key] = signList[i];
+    res[key] = val;
+  }
+  return res.join('')
+}
 
-console.log(getFolderNames(["wano","wano","wano","wano"]))
+function reverse(wordList) {
+  let list = [];
+  wordList.forEach(item => {
+    list.push(item[0])
+  })
+  list.reverse();
+  let val = [];
+  wordList.forEach((item, key) => {
+    val.push([list[key], item[1]])
+  })
+  return val;
+}
+
+console.log(reverseOnlyLetters('z<*zj'))

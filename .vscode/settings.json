@@ -1,3 +1,8 @@
 {
-    "editor.fontSize": 18
+    "editor.fontSize": 18,
+    "eslint.format.enable": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "eslint.validate": ["javascript"],
 }
