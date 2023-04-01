@@ -1,30 +1,18 @@
-const isValid = (s) => {
-    let list = [];
-    let small = ['(', ')'];
-    let middle = ['[', ']'];
-    let large = ['{', '}'];
-    let right = ['(', '[', '{'];
-    let oppsit = [')', ']', '}'];
-    for (let i = 0;i < s.length;i++) {
-        let char = s[i];
-        if (list.length === 0 && match.indexOf(char) >= 0) {
-            return false;
-        }
-        if (list.length === 0) {
-            list.push(char);
-        }
-        if (list.length !== 0) {
-            if (right.indexOf(char) >= 0) {
-                list.push(char);
-            } else {
-                getMatch(char, list);
-            }
-        }
+var minOperations = function(nums, queries) {
+    
+    let arr = [];
+    for(let i = 0; i<queries.length; i++) {
+        let a1 = nums.filter(j => j < queries[i]);
+        let a2 = nums.filter(j => j >= queries[i]);
+        let sum1 = a1.reduce((a,b) => a + b, 0) * -1;
+        let sum2 = a2.reduce((a,b) => a + b, 0);
+        let total = Math.abs((sum1 + sum2) - queries[i] * nums.length);
+        arr.push(total);
     }
-    return list.length === 0;
+    return arr;
 };
 
-function getMatch () {
-    let a = 1;
-    console.log(a);
-}
+console.log(minOperations(
+    [3,1,6,8],
+    [1,5]
+));
