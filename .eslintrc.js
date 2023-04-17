@@ -1,7 +1,7 @@
 module.exports = {
     parserOptions: {
         'sourceType': 'module',
-        'ecmaVersion': 2020,
+        'ecmaVersion': 2020
         
     },
     env: {
@@ -10,7 +10,9 @@ module.exports = {
     },
     rules: {
         "semi": "error",
-        "indent": ["warn", 4]
+        "indent": ["warn", 4],
+        "eqeqeq": [2, "allow-null"],
+        "comma-dangle": [2, "never"]
     },
     extends: [
         'eslint:recommended'
