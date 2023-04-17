@@ -1,41 +1,38 @@
-/**
- * @param {string} s
- * @param {number} k
- * @return {number}
- */
- var lengthOfLongestSubstringKDistinct = function(s, k) {
-    let l = 0;
-    let r = 1;
-    let max = -Infinity;
-    let map = new Map();
+var largestRectangleArea = function(heights) {
+    let area = 0;
+    let max = 0;
     let i = 0;
-    while(i < s.length) {
-        if(!map.has(str[i])) {
-            map.set(str[i], 1)
+    let list = [];
+    while(i < heights.length) {
+        if(list.length === 0 || heights[list[list.length - 1]] <= heights[i]) {
+            list.push(i);
+            i++;
         } else {
-            let val = map.get(str[i]);
-            map.set(str[i], val+1);
+            let curIndex = list.pop();
+            if(list.length === 0) {
+                area = heights[curIndex] * i;
+            } else {
+                area = heights[curIndex] * (i - list[list.length - 1] - 1);
+            }
+            max = Math.max(max, area);
         }
-        debugger
+       
+    }
+    while(list.length > 0) {
+        let cur = list.pop();
+        if(list.length === 0) {
+            area = heights[cur] * i;
+        } else {
+            area = heights[cur] * (i - list[list.length - 1] - 1);
+           
+        }
+        max = Math.max(area, max);
     }
     return max;
 };
-const check = (str, k) => {
-    let map = new Map();
-    let flag = false;
-    for(let i = 0; i<str.length; i++) {
-        if(!map.has(str[i])) {
-            map.set(str[i], 1)
-        } else {
-            let val = map.get(str[i]);
-            map.set(str[i], val+1);
-        }
-    }
-    map.forEach((val, index) => {
-        if(val === k) {
-            flag = true;
-        }
-    })
-    return flag;
-}
-console.log(lengthOfLongestSubstringKDistinct('aa', 1))
+
+console.log(largestRectangleArea([1,1]));
+console.log(largestRectangleArea([2,1,5,6,2,3]));
+//console.log(largestRectangleArea([3,4,2,1,2,3,5]))
+console.log(largestRectangleArea([0, 9]));
+console.log(largestRectangleArea([0, 0]));

@@ -1,32 +1,36 @@
-var combinationSum = function(candidates, target) {
-    candidates.sort((a,b) => a - b);
-    let index = 0;
-    let res = [];
-    // 这里会出现重复，看需要怎么去重，我想到的是变成字符串，然后去重
-    backtrack([]);
-    function backtrack(list) {
-        if(getSum(list) === target) {
-           
-            res.push(list)
-            list = [];
-            return;
-        } else if(getSum(list) > target) {
-            list.pop();
-            return;
-        }
-        for(let i = index; i<candidates.length; i++) {
-
-            backtrack([...list, candidates[i]])
+var largestRectangleArea = function(heights) {
+    let area = 0;
+    let max = 0;
+    let list = [];
+    let i = 0;
+    while(i < heights.length) {
+        if(list.length === 0 || heights[i] >= heights[list[list.length - 1]]) {
+            list.push(i);
+            i++;
+        } else {
+            let index = list.pop();
+            if(list.length === 0) {
+                area = heights[index] * i;
+            } else {
+                area = heights[index] * (i - list[list.length - 1] - 1);
+            }
+            max = Math.max(max, area);
         }
     }
-    return res;
+    while(list.length > 0) {
+        let index = list.pop();
+        if(list.length === 0) {
+            area = heights[index] * i;
+        } else {
+            area = heights[index] * (i - list[list.length - 1] - 1);
+        }
+        max = Math.max(max, area);
+    }
+    return max;
 };
-
-function getSum(list) {
-    if(list.length === 0) {
-        return 0;
-    }
-   return list.reduce((a,b) => a + b)
-}
-
-console.log(combinationSum([1,2],4))
+ 
+console.log(largestRectangleArea([1,1]));
+console.log(largestRectangleArea([2,1,5,6,2,3]));
+//console.log(largestRectangleArea([3,4,2,1,2,3,5]))
+console.log(largestRectangleArea([0, 9]));
+console.log(largestRectangleArea([0, 0]));
