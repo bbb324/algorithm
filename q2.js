@@ -1,38 +1,33 @@
-var largestRectangleArea = function(heights) {
-    let area = 0;
-    let max = 0;
-    let i = 0;
-    let list = [];
-    while(i < heights.length) {
-        if(list.length === 0 || heights[list[list.length - 1]] <= heights[i]) {
-            list.push(i);
-            i++;
-        } else {
-            let curIndex = list.pop();
-            if(list.length === 0) {
-                area = heights[curIndex] * i;
-            } else {
-                area = heights[curIndex] * (i - list[list.length - 1] - 1);
+var wordBreak = function(s, wordDict) {
+    let set = new Set();
+    for(let word of wordDict) {
+        set.add(word);
+    }
+    let memo = [];
+
+    function backtrack(start) {
+        if(start === s.length) {
+            return true;
+        }
+        if(memo[start]!== undefined) {
+            return memo[start];
+        }
+
+        // 想不起来怎么开始遍历
+        for(let i = start+1; i<s.length; i++) {
+            let str = s.slice(start, i);
+            if(set.has(str)) {
+                if(backtrack(i)) {
+                    memo[start] = true;
+                    return true;
+                }
             }
-            max = Math.max(max, area);
         }
-       
+        memo[start] = false;
+        return false;
     }
-    while(list.length > 0) {
-        let cur = list.pop();
-        if(list.length === 0) {
-            area = heights[cur] * i;
-        } else {
-            area = heights[cur] * (i - list[list.length - 1] - 1);
-           
-        }
-        max = Math.max(area, max);
-    }
-    return max;
+
+    return backtrack(0);
 };
 
-console.log(largestRectangleArea([1,1]));
-console.log(largestRectangleArea([2,1,5,6,2,3]));
-//console.log(largestRectangleArea([3,4,2,1,2,3,5]))
-console.log(largestRectangleArea([0, 9]));
-console.log(largestRectangleArea([0, 0]));
+console.log(wordBreak('leetcode', ['leet', 'code']));
