@@ -1,3 +1,8 @@
+/**
+ * https://leetcode.cn/problems/Nsibyl/description/
+ * @param {*} rampart 
+ * @returns 
+ */
 var rampartDefensiveLine = function(rampart) {
     let l = 0;
     let r = rampart[rampart.length - 1][0] - rampart[0][1];
