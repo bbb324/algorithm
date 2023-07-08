@@ -1,41 +1,35 @@
-var continuousSubarrays = function(nums) {
-  let max = nums[0];
-  let min = nums[0];
+var longestSubarray = function(nums, limit) {
+  let left = 0;
+  let right = 0;
   let ans = 0;
-  let j = -1;
-  for(let i = 0; i<nums.length; i++) {
-    if(nums[i] <= max && nums[i] >= min) {
-      ans += i - j;
-      continue;
-  }
-    j = i - 1;
-    max = nums[i];
-    min = nums[i];
-    while(j >= 0) {
-      if(max - nums[j] > 2 || nums[j] - min > 2) {
-        break;
-      }
-      max = Math.max(max, nums[j]);
-      min = Math.min(min, nums[j]);
-      j--
+  while(right < nums.length) {
+    if(isValid(left, right, limit, nums)) {
+      ans = Math.max(ans, right - left + 1)
+      right++;
+    } else {
+      left = left + 1;
+      right = left;
     }
-    ans += i - j;
   }
   return ans;
 };
 
-function isValidWindow(left, right, nums) {
-  let max = nums[left]
-  let min = nums[right]
-  for(let i = left; i<=right; i++) {
-    max = Math.max(max, nums[i]);
-    min = Math.min(min, nums[i]);
-    if(max - min > 2) {
+function isValid(left, right, limit, nums) {
+  let max = nums[left];
+  let min = nums[left];
+  for(let i = left; i<= right; i++) {
+    if(nums[i] - min > limit || max - nums[i] > limit) {
       return false;
     }
+    min = Math.min(min, nums[i]);
+    max = Math.max(max, nums[i])
   }
   return true;
 }
 
-//console.log(continuousSubarrays([65,66,67,66,66,65,64,65,65,64]))
-console.log(continuousSubarrays([5,4,2,4]))
+//console.log(isValid(2, 7, 4, [1,5,6,7,8,10,6,5,6]))
+
+//console.log(longestSubarray([8,2,4,7], 4))
+console.log(longestSubarray([1,5,6,7,8,10,6,5,6], 4))
+
+// console.log(longestSubarray([8,2,4,7], 4))
