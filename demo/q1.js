@@ -1,33 +1,37 @@
-
-var longestSubarray = function(nums, limit) {
-    let ans = 0;
-    let max = nums[0];
-    let min = nums[0];
-    let r = -1;
-    for(let l = 0; l < nums.length; l++) {
-        if(max - nums[l] <= limit && nums[l] - min <= limit) {
-            ans = Math.max(ans, l - r);
-            max = Math.max(max, nums[l]);
-            min = Math.min(min, nums[l]);
-            continue;
-        }   
-        r = l - 1;
-        max = nums[l];
-        min = nums[l];
-        while(r >= 0) {
-            if(max - nums[r] > limit || nums[r] - min > limit) {
-                break;
-            }
-            max = Math.max(max, nums[r])
-            min = Math.min(min, nums[r])
-            r--;
-        }
-        ans = Math.max(ans, l - r)
+var balancedString = function(s) {
+    let avg = s.length / 4;
+    let obj = {
+        'Q': 0,
+        'W': 0,
+        'E': 0,
+        'R': 0,
     }
-    return ans;
-};
-console.log(longestSubarray([8,2,4,7], 4))
-console.log(longestSubarray([10,1,2,4,7,2], 5))
-console.log(longestSubarray([4,2,2,2,4,4,2,2], 0))
+    for(let i of s) {
+        obj[i]++;
+    }
+    if(isBalanced(obj, avg)) {
+        return 0
+    }
+    let min = s.length;
+    let fast = 0, slow = 0;
+    while(fast < s.length) {
+        let cur = s[fast];
+        obj[cur]--;
+        while(slow <= fast && isBelowBanalce(obj, avg)) {
+            min = Math.min(min, fast - slow + 1);
+            let char = s[slow];
+            obj[char]++;
+            slow++;
+        }
+        fast++
+    }
+    return min;
+}
+function isBelowBanalce(obj, avg) {
+    return obj.Q <= avg && obj.W <= avg && obj.E <= avg && obj.R <= avg; 
+}
 
-// console.log(longestSubarray([8,2,4,7], 4))
+function isBalanced(obj, avg) {
+   return obj.Q === avg && obj.W === avg && obj.E === avg && obj.R === avg;
+}
+console.log(balancedString('WWEQERQWQWWRWWERQWEQ'))
