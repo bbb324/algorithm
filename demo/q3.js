@@ -1,36 +1,38 @@
-function continuousSubarrays(nums) {
-    const n = nums.length;
-    let count = 0;
-    let left = 0;
-    let right = 0;
-  
-    while (right < n) {
-      if (isValidWindow(nums, left, right)) {
-        count += right - left + 1;
-        right++;
-      } else {
-        left++;
-        right = Math.max(right, left);
-      }
-    }
-  
-    return count;
+var balancedString = function(s) {
+  const cnt = new Array(26).fill(0);
+  for (let i = 0; i < s.length; i++) {
+      const c = s[i];
+      cnt[idx(c)]++;
   }
-  
-  function isValidWindow(nums, left, right) {
-    let min = nums[left];
-    let max = nums[left];
-  
-    for (let i = left + 1; i <= right; i++) {
-      min = Math.min(min, nums[i]);
-      max = Math.max(max, nums[i]);
-      if (max - min > 2) {
-        return false;
-      }
-    }
-  
-    return true;
+
+  const partial = s.length / 4;
+  let res = s.length;
+
+  if (check(cnt, partial)) {
+      return 0;
   }
-  
-  console.log(continuousSubarrays([65,66,67,66,66,65,64,65,65,64]))
-  console.log(continuousSubarrays([5,4,2,4]))
+  for (let l = 0, r = 0; l < s.length; l++) {
+      while (r < s.length && !check(cnt, partial)) {
+          cnt[idx(s[r])]--;
+          r++;
+      }
+      if (!check(cnt, partial)) {
+          break;
+      }
+      res = Math.min(res, r - l);
+      cnt[idx(s[l])]++;
+  }
+  return res;
+}
+
+const idx = (c) => {
+  return c.charCodeAt() - 'A'.charCodeAt();
+}
+
+const check = (cnt, partial) => {
+  if (cnt[idx('Q')] > partial || cnt[idx('W')] > partial || cnt[idx('E')] > partial || cnt[idx('R')] > partial) {
+      return false;
+  }
+  return true;
+};
+console.log(balancedString('QQER'))
